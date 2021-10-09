@@ -68,3 +68,8 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+#LAS TAREAS SON HACER LO MISMO QUE CON INSTAGRAM PERO COMO OTARS REDES SOCIALES QUE YO CONSIDERE OPTIMAS
+def pastiempo():
+    pass
