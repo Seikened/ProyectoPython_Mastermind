@@ -1,7 +1,7 @@
 from random import randint
 
 def rand():
-    rand_numb = randint(1,101)
+    rand_numb = randint(1,11)
     return rand_numb
 
 
