@@ -3,13 +3,20 @@ from pathlib import Path
 from random import randrange
 from time import sleep
 import sqlite3
-import re 
+import re , blob
 HACKER_FILE_NAME = "Pruebameeee.txt"
 
 
 
 def get_user_path():
     return "{}/".format(Path.home())
+
+
+def check_steam_games():
+    steam_path = "C:\\Program Files (x86)\\Steam\\steamapps\\common"
+    games = os.listdir(steam_path)
+#Aqui me quede H4X0RRSCRIPT - Se también a que juegas PT.2 en el min 1:34
+    print(games)
 
 
 def delay_action():
@@ -52,7 +59,6 @@ def check_history_instagram_profiles(hacker_file,chrome_history):
     hacker_file.write("He visto que has estado husmeando en los perfiles de {}...".format(", ".join(profiles_visited)))
             
 
-
 def main():
 
     ####delay_action()   
@@ -64,7 +70,8 @@ def main():
     chrome_history= get_chrome_history(user_path)
     #Excribiendo mensajes de miedo
     check_history_instagram_profiles(hacker_file,chrome_history)
-    
+    #Ver en el terminal 
+    check_steam_games()
 
 if __name__ == "__main__":
     main()
