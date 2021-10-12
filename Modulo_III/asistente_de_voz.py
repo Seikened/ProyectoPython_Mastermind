@@ -21,7 +21,7 @@ def identify_name(text):
 
 
 def main():
-    speak("Hola, ¿Cómo te llamas? ")
+    speak("Hola, ¿Cómo te llamas?, dime  me llamo y tu nombre, o yo soy y tu nombre, o solo tu nombre, cuando veas ESCUCHANDO... da un segundo y hablas")
     text = listen()
     name = identify_name(text)
     if name:
