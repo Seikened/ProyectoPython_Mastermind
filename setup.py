@@ -8,8 +8,6 @@ from random import randrange
 from time import sleep
 
 
-import py2exe
-
 
 
 setup(zipfile=None, 
