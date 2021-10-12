@@ -6,7 +6,7 @@ import speech_recognition as sr
 
 
 engine = pyttsx3.init()
-engine.setProperty("rate",120)
+engine.setProperty("rate",160)
 engine.setProperty("voice", "spanish")
 
 r = sr.Recognizer()#Este es nuestro reconocerdor
@@ -30,6 +30,8 @@ def listen():
             print("Lo siento pero no te he entendido")
             
 
-
+if __name__ == "__main__":
+    speak("Probando todo bien")
+    print(listen())
 
 
