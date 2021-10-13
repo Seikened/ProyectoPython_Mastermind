@@ -8,13 +8,24 @@ def main():
     session = HTMLSession()
     main_site = session.get("https://www.officedepot.com.mx/")
     categories = main_site.html.find(".item-menu-quaternary")
-    
-    for a in range(1000):
+    category = random.choice(categories)
+
+    while category.text == "Papel Cascaron":
         category = random.choice(categories)
-        while category.text == "Papel Cascaron":
-            print("Toco Papel Cascaron")
-            category = random.choice(categories)
-        print(category.text)
+
+    product_page = session.get(category.url[0])#,category.html["href"])
+    products = product_page.html.find(".product-item")
+
+    product = random.choice(products)
+    imagen_src = product.find(".picture-product", first=True).attrs["src"]
+    product_name = product.find(".contnet-name ", first=True).text
+    product_price = product.find(".discountedPrice-grid cont-price-grid bp-original").text
+    print(float(product_price.replace("$", "").replace(",",".")))
+
+
+
+    
+
 
 
 
