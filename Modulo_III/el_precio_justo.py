@@ -12,48 +12,59 @@ def obtain_link_image (product):
 
     main_link = "https://www.officedepot.com.mx"
     imagen_src = main_link + (results)
-    print(imagen_src)
     return imagen_src
 
+def obtain_price(product):
 
+    price = product.find(".product-item", first=True).text          #float(.replace("[","").replace("'","").replace("]","" 
+    product_price = float(str(re.findall("n[$0-9.]+", price)).replace("n","").replace("$",""))
+    return product_price
+
+def random_pruduct(products):
+    while True:
+        try:
+            product = random.choice(products)
+            break
+        except IndexError:
+            product = random.choice(products)
+            break
+
+def black_list(categories):
+    
+    kicks_items = ["Papel Cascaron"]
+
+    while category.text == kicks_items:
+        category = random.choice(categories) #Esto es para saltar estos elementos
+    return category
+    
+    
 
 def main():
     #speak("Bienvenido al precio justo, vamos a intentar adivinar el precio de algunos productos")
     session = HTMLSession()
     main_site = session.get("https://www.officedepot.com.mx/")
     categories = main_site.html.find(".item-menu-quaternary")
-    category = random.choice(categories)
 
+    #Black_list
 
-    kicks_items = ["Papel Cascaron"]
-
-    while category.text == kicks_items:
-        category = random.choice(categories) #Esto es para saltar estos elementos
-
-    for link in (category.absolute_links):
+    for link in (black_list(categories).absolute_links):
         product_page = session.get(link)
-        
-
-    products = product_page.html.find(".product-item")
-
     
-    while True:
-        try:
-            product = random.choice(products) #Selecciona aleatoriamente un producto
-            break
-        except IndexError:
-            product = random.choice(products)
-            pass
+    
+    #Todos los productos de la categoria
+    products = product_page.html.find(".product-item")
+    #Selecciona aleatoriamente un producto    
+    product= random_pruduct(products)
 
 
-    obtain_link_image(product)      
-
+    #Obtengo la imagen del producto
+    print(obtain_link_image(product))    
+    #Obtengo el nombre del producto
     product_name = product.find(".contnet-name ", first=True).text
-    product_price = product.find(".discountedPrice-grid cont-price-grid bp-original").text
-    print(float(product_price.replace("$", "").replace(",",".")))
+    #Obtengo el precio del producto
+    print(obtain_price(product) )
 
-
-
+    pass
     
 
 
