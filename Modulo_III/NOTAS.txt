@@ -10,34 +10,14 @@ def main():
     categories = main_site.html.find(".item-menu-quaternary")
     category = random.choice(categories)
 
-    kicks_items = ["Papel Cascaron"]
+    while category.text == "Papel Cascaron":
+        category = random.choice(categories)
 
-    while category.text == kicks_items:
-        category = random.choice(categories) #Esto es para saltar estos elementos
-
-    for link in (category.absolute_links):
-        product_page = session.get(link)
-        print(link)
-
+    product_page = session.get(category.url[0])#,category.html["href"])
     products = product_page.html.find(".product-item")
 
-    product = random.choice(products) #Selecciona aleatoriamente un producto
-
-    for image in (product.find(".lazy", first=True).html):
-
-        imagen_src = "https://www.officedepot.com.mx/" + image
-        
-
-    for items in chrome_history:
-        results = re.findall(
-            "https://www.instagram.com/([A-Za-z0-9_.-]+)/+$", items[2])
-        if results and results[0] not in ["fer_leonfranco"]:  # FILTRO
-            profiles_visited.append(results[0])
-
-
-
-
-
+    product = random.choice(products)
+    imagen_src = product.find(".picture-product", first=True).attrs["src"]
     product_name = product.find(".contnet-name ", first=True).text
     product_price = product.find(".discountedPrice-grid cont-price-grid bp-original").text
     print(float(product_price.replace("$", "").replace(",",".")))
