@@ -23,7 +23,7 @@ def listen():
         audio = r.listen(source)   #Aquí se deja todo el recurso de lo de arriba
 
         try:
-            text = r.recognize_google(audio, language="es=MX")
+            text = r.recognize_google(audio, language="mx=MX")
             print("he entendido: {}".format(text))
             return text
         except sr.UnknownValueError:

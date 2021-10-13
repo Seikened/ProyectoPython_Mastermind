@@ -66,6 +66,12 @@ def main():
     #Obtengo el precio del producto
     print("\n", obtain_price(product), "\n","-"*long)
 
+
+    numero = listen()
+    print(numero)
+
+
+
     pass
     
 if __name__ == '__main__':
