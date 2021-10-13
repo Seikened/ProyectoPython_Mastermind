@@ -10,6 +10,7 @@ def main():
     categories = main_site.html.find(".item-menu-quaternary")
     category = random.choice(categories)
 
+<<<<<<< HEAD
     kicks_items = ["Papel Cascaron"]
 
     while category.text == kicks_items:
@@ -38,6 +39,16 @@ def main():
 
 
 
+=======
+    while category.text == "Papel Cascaron":
+        category = random.choice(categories)
+
+    product_page = session.get(category.url[0])#,category.html["href"])
+    products = product_page.html.find(".product-item")
+
+    product = random.choice(products)
+    imagen_src = product.find(".picture-product", first=True).attrs["src"]
+>>>>>>> adb1817a1c64bce4a971ff35d996681273603812
     product_name = product.find(".contnet-name ", first=True).text
     product_price = product.find(".discountedPrice-grid cont-price-grid bp-original").text
     print(float(product_price.replace("$", "").replace(",",".")))
