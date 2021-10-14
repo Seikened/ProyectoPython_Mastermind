@@ -2,6 +2,8 @@ from requests_html import HTMLSession
 import random
 from speak_and_listen import listen, speak
 import re
+from PIL import Image
+
 
 
 

@@ -1,10 +1,6 @@
 import pyttsx3
 import speech_recognition as sr
 
-
-
-
-
 engine = pyttsx3.init()
 engine.setProperty("rate",160)
 engine.setProperty("voice", "spanish")
@@ -23,7 +19,7 @@ def listen():
         audio = r.listen(source)   #Aquí se deja todo el recurso de lo de arriba
 
         try:
-            text = r.recognize_google(audio, language="mx=MX")
+            text = r.recognize_google(audio, language="es=ES")
             print("he entendido: {}".format(text))
             return text
         except sr.UnknownValueError:
