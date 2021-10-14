@@ -3,7 +3,7 @@ import random
 from speak_and_listen import listen, speak
 import re
 from PIL import Image
-
+from io import BytesIO
 
 
 
@@ -41,40 +41,48 @@ def black_list(categories):
         category = random.choice(categories) #Esto es para saltar estos elementos
     return category
     
+
+def show_image(session,product):
+    img_downloaded = session.get(obtain_link_image(product))
+    image = Image.open(BytesIO(img_downloaded.content))
+    image.show()
     
+
+
 
 def main():
     #speak("Bienvenido al precio justo, vamos a intentar adivinar el precio de algunos productos")
     session = HTMLSession()
     main_site = session.get("https://www.officedepot.com.mx/")
     categories = main_site.html.find(".item-menu-quaternary")
-    
-    
     for link in (black_list(categories).absolute_links):
         product_page = session.get(link)
-    
-    
     #Todos los productos de la categoria
     products = product_page.html.find(".product-item")
     #Selecciona aleatoriamente un producto    
     product= random_pruduct(products)
-
     long = len(obtain_link_image(product))
+
+
+
     #Obtengo la imagen del producto
-    print("-"*long,"\n"+obtain_link_image(product))    
+    print("-"*long,"\n"+obtain_link_image(product))   
+
+    #Mostrar imagen
+    show_image(session, (product))
+    
     #Obtengo el nombre del producto
     product_name = product.find(".contnet-name ", first=True).text
+    speak(product_name)
     print("\n"+ product_name)
+
     #Obtengo el precio del producto
+    speak(obtain_price(product))
     print("\n", obtain_price(product), "\n","-"*long)
 
-
-    numero = listen()
-    print(numero)
+    
 
 
-
-    pass
     
 if __name__ == '__main__':
     main()
