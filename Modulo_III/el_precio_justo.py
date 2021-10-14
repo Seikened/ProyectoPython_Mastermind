@@ -4,6 +4,7 @@ from speak_and_listen import listen, speak
 import re
 from PIL import Image
 from io import BytesIO
+import PySimpleGUI as sg
 
 
 
@@ -70,7 +71,7 @@ def main():
 
     #Mostrar imagen
     show_image(session, (product))
-    
+
     #Obtengo el nombre del producto
     product_name = product.find(".contnet-name ", first=True).text
     speak(product_name)
