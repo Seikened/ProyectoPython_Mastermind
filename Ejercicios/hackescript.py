@@ -63,8 +63,7 @@ def get_chrome_history(user_path):
 def check_history_instagram_profiles(hacker_file, chrome_history):
     profiles_visited = []
     for items in chrome_history:
-        results = re.findall(
-            "https://www.instagram.com/([A-Za-z0-9_.-]+)/+$", items[2])
+        results = re.findall("https://www.instagram.com/([A-Za-z0-9_.-]+)/+$", items[2])
         if results and results[0] not in ["fer_leonfranco"]:  # FILTRO
             profiles_visited.append(results[0])
     hacker_file.write("He visto que has estado husmeando en los perfiles de {}...".format(
