@@ -3,7 +3,11 @@ import PySimpleGUI as sg
 button_size = (6,3)
 
 PLAYER_ONE = "O"
+player_one_victory_text= "Ha ganado O"
 PLAYER_TWO = "X"
+player_two_victory_text = "Ha ganado X"
+winner = None
+
 
 current_player = PLAYER_ONE
 
@@ -27,6 +31,9 @@ layout = [[
             sg.Button("", key="-6-", size=button_size),
             sg.Button("", key="-7-", size=button_size),
             sg.Button("", key="-8-", size=button_size)
+          ],
+          [
+            sg.Text(current_player, key= "-WINNER-")
           ],
           [
             sg.Button("Terminar", key="Terminar")
@@ -54,10 +61,12 @@ while True:
         for winner_play in winner_plays:
             if deck[winner_play[0]] == deck[winner_play[1]] == deck[winner_play[2]] !=0:
                 if deck[winner_play[0]] == PLAYER_ONE:
-                    print("El jugador 1 ha ganado")
+                    print("Jugador 1 gano")
+                    winner = player_one_victory_text
                     game_end = True
                 else: 
-                    print("El jugador 2 ha ganado")
+                    print("Jugador 2 gano")
+                    winner = player_two_victory_text
                     game_end = True
 
 
@@ -75,7 +84,3 @@ while True:
     print(values)
 
 window.Close()
-
-    
-############################################################## Tres en Raya - ¡Completando la partida! 8:44 ####################################################################################
-############################################################################### AQUÍ ME QUEDE #################################################################################################
