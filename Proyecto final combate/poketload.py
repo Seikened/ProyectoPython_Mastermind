@@ -62,24 +62,27 @@ def get_pokemon(index):
 def get_all_pokemons():
     try:
         print("Cargando el archivo de pokemons...")
+        
         with open("pokefile.pkl", "rb") as pokefile: 
-            all_pokemons = pickle.load(pokefile)#Esto carga el archivo de pokefile
+            all_pokemons = pickle.load(pokefile)      #Esto carga el archivo de pokefile
+            pass
 
     except FileNotFoundError:
     ####### Esto se genera cuando no tenemos un archivo con los pokemons
         print("pokefile no encontrado. Descangando los pokemons de internet...")
         all_pokemons = []
         for index in range(151):
-            all_pokemons.append(get_pokemon(index+1))
+            all_pokemons.append(get_pokemon(index))
             print("*", end="")
             
 
         with open("pokefile.pkl", "wb") as pokefile:
-            pickle.dump(all_pokemons, pokefile)
+            pickle.dump(all_pokemons,pokefile)
             print("\n¡Todos los pokemons han sido descargados!")
 
         print("¡Lista de pokemons cargada!")
-        return all_pokemons
+    return all_pokemons
 
 
-get_all_pokemons()
+
+
