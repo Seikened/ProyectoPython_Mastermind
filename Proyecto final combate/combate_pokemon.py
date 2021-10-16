@@ -66,7 +66,7 @@ def  get_attack_info(attack):
 
 
 def player_attack(player_pokemon):
-    pass
+    attacks_list = player_pokemon["attacks"] #AQUI ME QUEDE 
 
 def enemy_attack(enemy_pokemon,player_pokemon):
     #RANDOM EMENY ATTACK
