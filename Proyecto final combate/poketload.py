@@ -4,8 +4,8 @@ import pickle
 pokemon_base = {
     "url_photo":"",
     "name": "",
-    "current_health": 100,
-    "base_health": 100,
+    "current_health": 500,
+    "base_health": 500,
     "level": 1,
     "type": None,
     "current_exp": 0
@@ -86,3 +86,7 @@ def get_all_pokemons():
 
 
 
+if __name__ == "__main__":
+    print("TEST")
+    b = get_all_pokemons()
+    print(b)

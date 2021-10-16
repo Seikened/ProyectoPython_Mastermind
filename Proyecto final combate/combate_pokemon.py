@@ -45,33 +45,30 @@ def choose_pokemon(player_profile):
     
 
 def get_pokemon_info(pokemon):
-    return "{} | Level {} | HEALTH POINS {}/{}".format(pokemon["name"], 
+    return "{} | Level {} | HEALTH POINS {}/{}".format(pokemon["name"].upper(), 
                                                        pokemon["level"],
                                                        pokemon["current_health"],
                                                        pokemon["base_health"])
 
-
 def  get_attack_info(attack):
-    return "{} | DAMAGE {} |  TYPE {} | MIN LEVEL {}".format(attack["name"],
-                                                             attack["damage"],
-                                                             attack["type"],
-                                                             attack["min_livel"],
+    return "{} | DAMAGE {} | MIN LEVEL {}".format(attack["name"].upper(),
+                                                  attack["damage"],
+                                                  attack["min_livel"],
                                                             )
 
+def player_attack(player_pokemon):
+    
 
-
-def player_attack(player_attack):
-
-
-    pass
-
-
-def enemy_attack(enemy_pokemon):
+def enemy_attack(enemy_pokemon,player_pokemon):
+    #RANDOM EMENY ATTACK
     random_attack = random.choice(enemy_pokemon["attacks"])
+    damage = int(random_attack["damage"])
+    print("Daño de ataque {}".format(damage),get_attack_info(random_attack))
+    player_pokemon["current_health"] -= damage
+    print("Vida restante del pokemon seleccionado {}".format(player_pokemon["current_health"]))
+    input("ENTER")
 
-    print(get_attack_info(random_attack))
-
-    input("STOP")
+    
 
 
 
@@ -85,9 +82,9 @@ def fight(player_profile,enemy_pokemon):
 
     while any_player_pokemon_lives(player_profile) and enemy_pokemon["current_health"] > 0:
 
-        #player_attack(enemy_pokemon)
-        enemy_attack(enemy_pokemon)
-
+        player_attack(player_pokemon,enemy_pokemon)
+        enemy_attack(enemy_pokemon,player_pokemon)
+    
     
 
     print("---FIN DEL COMBATE---")
