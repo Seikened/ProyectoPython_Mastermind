@@ -1,3 +1,4 @@
+from typing import get_type_hints
 from poketload import get_all_pokemons
 from pprint import pprint
 import random
@@ -55,6 +56,14 @@ def  get_attack_info(attack):
                                                   attack["damage"],
                                                   attack["min_livel"],
                                                             )
+
+
+    #asd
+
+
+
+
+
 
 def player_attack(player_pokemon):
     pass
