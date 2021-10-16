@@ -30,17 +30,39 @@ def any_player_pokemon_lives(player_profile):
    return sum( [pokemon["current_health"] for pokemon in player_profile["pokemon_inventory"]]) > 0 # Si la suma de todas las vidas de los pokemon es mayor a 0 devolvera un True si no un False
 
 
-def fight(player_profile,enemy_pokemon):
-    #ENEMY POKEMON
-    select_attack = random.choice(enemy_pokemon["attacks"])
-    ##Min_Level
-    if select_attack["min_livel"] > enemy_pokemon["level"]:
-        select_attack = random.choice(enemy_pokemon["attacks"])
-    enemy_damage = select_attack["damage"]
-    enemy_name_attack = select_attack["name"]
-    enemy_type_attack = select_attack["type"]
-    ####################################################################
 
+def choose_pokemon(player_profile):
+    chosen = None
+    while not chosen:
+        print("Elije tu pokemon con el que lucharas: ")
+        for index in range(len(player_profile["pokemon_inventory"])):
+            print("{} - {}".format(index,get_pokemon_info(player_profile["pokemon_inventory"][index])))
+        try:
+            return player_profile["pokemon_inventory"][int(input("¿Cual elijes? "))]
+        except (ValueError, IndexError):
+            print("Obción invalida")
+        
+    
+
+def get_pokemon_info(pokemon):
+    return "{} | Level {} | HEALTH POINS {}/{}".format(pokemon["name"], 
+                                                       pokemon["level"],
+                                                       pokemon["current_health"],
+                                                       pokemon["base_health"])
+
+
+
+def fight(player_profile,enemy_pokemon):
+    print("---NUEVO COMBATE---")
+    player_pokemon = choose_pokemon(player_profile)
+    
+    print("Contrincantes: \n{} \nvs \n{}".format(get_pokemon_info(player_pokemon),
+                                           get_pokemon_info(enemy_pokemon)))
+
+
+
+    print("---FIN DEL COMBATE---")
+    input("Presiona ENTER para continuar...")
 
 
 
