@@ -27,7 +27,7 @@ def get_player_profile(pokemon_list):
 
                                                                                     
 def any_player_pokemon_lives(player_profile):
-   return sum( [pokemon["current_health"] for pokemon in player_profile["pokemon_inventory"]]) > 0 # Si la suma de todas las vidas de los pokemon es mayor a 0 devolvera un True si no un False
+    return (sum( [pokemon["current_health"] for pokemon in player_profile["pokemon_inventory"]] ) > 0) # Si la suma de todas las vidas de los pokemon es mayor a 0 devolvera un True si no un False
 
 
 
@@ -51,15 +51,44 @@ def get_pokemon_info(pokemon):
                                                        pokemon["base_health"])
 
 
+def  get_attack_info(attack):
+    return "{} | DAMAGE {} |  TYPE {} | MIN LEVEL {}".format(attack["name"],
+                                                             attack["damage"],
+                                                             attack["type"],
+                                                             attack["min_livel"],
+                                                            )
+
+
+
+def player_attack(player_attack):
+
+
+    pass
+
+
+def enemy_attack(enemy_pokemon):
+    random_attack = random.choice(enemy_pokemon["attacks"])
+
+    print(get_attack_info(random_attack))
+
+    input("STOP")
+
+
 
 def fight(player_profile,enemy_pokemon):
     print("---NUEVO COMBATE---")
     player_pokemon = choose_pokemon(player_profile)
     
-    print("Contrincantes: \n{} \nvs \n{}".format(get_pokemon_info(player_pokemon),
-                                           get_pokemon_info(enemy_pokemon)))
+    print("Contrincantes: \n{} \n{}VS \n{}".format(get_pokemon_info(player_pokemon),
+                                                 " "* 17,
+                                                 get_pokemon_info(enemy_pokemon)))
 
+    while any_player_pokemon_lives(player_profile) and enemy_pokemon["current_health"] > 0:
 
+        #player_attack(enemy_pokemon)
+        enemy_attack(enemy_pokemon)
+
+    
 
     print("---FIN DEL COMBATE---")
     input("Presiona ENTER para continuar...")
@@ -77,7 +106,7 @@ def fight(player_profile,enemy_pokemon):
 def main():
     pokemon_list = get_all_pokemons()
     player_profile = get_player_profile(pokemon_list)
-    pprint(player_profile)
+    #pprint(player_profile)
 
     while any_player_pokemon_lives(player_profile):
         enemy_pokemon = random.choice(pokemon_list)
