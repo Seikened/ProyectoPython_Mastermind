@@ -57,7 +57,7 @@ def  get_attack_info(attack):
                                                             )
 
 def player_attack(player_pokemon):
-    
+    pass
 
 def enemy_attack(enemy_pokemon,player_pokemon):
     #RANDOM EMENY ATTACK
