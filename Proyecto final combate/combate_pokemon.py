@@ -58,7 +58,7 @@ def  get_attack_info(attack):
                                                             )
 
 
-    #asd
+    
 
 
 
@@ -66,7 +66,8 @@ def  get_attack_info(attack):
 
 
 def player_attack(player_pokemon):
-    attacks_list = player_pokemon["attacks"] #AQUI ME QUEDE 
+    attacks_list = player_pokemon["attacks"] 
+
 
 def enemy_attack(enemy_pokemon,player_pokemon):
     #RANDOM EMENY ATTACK
@@ -78,11 +79,32 @@ def enemy_attack(enemy_pokemon,player_pokemon):
     input("ENTER")
 
     
+def assign_experience(attack_history):
+    for pokemon in attack_history:
+        points = random.randint(1, 5)
+        pokemon["current_exp"] += points
 
+    while pokemon["current_exp"] > 20:
+        pokemon["level"] += 1
+        pokemon["current_health"] = pokemon["base_health"]
+        print("Tu pokemon ha subido de nivel {}".format(get_pokemon_info(pokemon)))
+
+def choose_action():
+    pass
+
+
+def cure_pokemon(player_profile,player_pokemon):
+    if player_profile["heat_potion"] > 0:
+       player_pokemon["current_health"] = player_pokemon["base_health"]  
+       print("Vida de {} es {}/ te quedan {} posiones".format( player_pokemon["name"], player_pokemon["current_health"],player_profile["heat_potion"]))
+    else:
+         print("No tienes mas posiones")
 
 
 def fight(player_profile,enemy_pokemon):
     print("---NUEVO COMBATE---")
+
+    attack_history = []
     player_pokemon = choose_pokemon(player_profile)
     
     print("Contrincantes: \n{} \n{}VS \n{}".format(get_pokemon_info(player_pokemon),
@@ -90,11 +112,31 @@ def fight(player_profile,enemy_pokemon):
                                                  get_pokemon_info(enemy_pokemon)))
 
     while any_player_pokemon_lives(player_profile) and enemy_pokemon["current_health"] > 0:
+        action = None
+        while action not in ["A", "P", "V", "C"]:
+            action = input("¿Que deseas hacer? [A]tacar , [P]okeball, Posion de [V]ida, [C]ambiar")
 
-        player_attack(player_pokemon,enemy_pokemon)
+        if action == "A":
+            player_attack(player_pokemon,enemy_pokemon)
+            attack_history.append(player_pokemon)
+            
+        elif action =="V":
+            cure_pokemon(player_profile ,player_pokemon)
+        # Si el usuario tiene pokeballs en el invetario, se tira una, hay una probabilidad de capturarlo
+        # si la salud del pokemon es mas baja, y cuando se captura pasa a estar en el inventario con la misma salud
+        elif action == "P":
+            pass
+        elif action == "C":
+            player_pokemon = choose_pokemon(player_profile)
+
         enemy_attack(enemy_pokemon,player_pokemon)
     
+        if player_profile["current_health"] == 0 and any_player_pokemon_lives(player_profile):
+            player_pokemon = choose_pokemon(player_profile)
     
+    if enemy_pokemon["current_health"] == 0:
+        print("¡Has ganado!")
+        assign_experience(attack_history)
 
     print("---FIN DEL COMBATE---")
     input("Presiona ENTER para continuar...")
