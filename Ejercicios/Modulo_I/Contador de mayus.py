@@ -6,4 +6,4 @@ for letra in texto_del_usuario:
     if letra in string.ascii_uppercase:
         letras_mayusculas += 1
 
-print("las letars mayusculas son {}".format(letras_mayusculas)
+print("las letars mayusculas son {}".format(letras_mayusculas))

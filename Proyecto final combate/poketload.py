@@ -20,6 +20,14 @@ URL_BASE = "{}index2.php?seccion=nds/nationaldex/movimientos_nivel&pk=".format(M
 -Conseguir los pokemons ya sea de internet o de el arvhivo que se ha generado previamente al descargarlos
 -Y con esto tener los 150 pokemons que existen
 """
+def get_min_level(attack_item):
+    a = attack_item.find("th")[1].text
+    if a == "":
+        a = 1
+    
+    return a
+
+
 
 
 def get_pokemon(index):
@@ -35,6 +43,7 @@ def get_pokemon(index):
 
     ### Stats of the new pokemon
     new_pokemon["url_photo"] = url_img_pokemon
+    #print(url)
     new_pokemon["name"] = pokemon_page.html.find(".mini", first=True).text
     #current_health
     #base_heatl
@@ -49,10 +58,11 @@ def get_pokemon(index):
         attack={
             "name":attack_item.find("td",first=True).find("a",first=True).text, 
             "type": attack_item.find("td")[1].find("img",first=True).attrs["alt"],
-            "min_livel": int(attack_item.find("th",first=True).text), 
+            "min_livel": get_min_level(attack_item),
             "damage":  int(attack_item.find("td")[3].text.replace("--","0"))
         }
         new_pokemon["attacks"].append(attack)
+        #print(attack["min_livel"])
 
 
 
@@ -71,7 +81,7 @@ def get_all_pokemons():
     ####### Esto se genera cuando no tenemos un archivo con los pokemons
         print("pokefile no encontrado. Descangando los pokemons de internet...")
         all_pokemons = []
-        for index in range(151):
+        for index in range(150):
             all_pokemons.append(get_pokemon(index))
             print("*", end="")
             
