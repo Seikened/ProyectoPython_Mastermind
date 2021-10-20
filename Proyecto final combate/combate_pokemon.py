@@ -1,7 +1,7 @@
 from typing import get_type_hints
 from poketload import get_all_pokemons
 from pprint import pprint
-import random
+import random,os
 
 
 
@@ -57,28 +57,33 @@ def  get_attack_info(attack):
                                                   attack["min_livel"],
                                                             )
 
-
+def player_attack(player_pokemon,enemy_pokemon):
+    chosen = None
+    while not chosen:    
+        print("Selecciona tu ataque")
+        for index in range(len(player_pokemon["attacks"])):
+            print("{} - {})".format(index,get_attack_info(player_pokemon["attacks"][index])))
+        try:
+            item =  player_pokemon["attacks"][int(input("¿Cual elijes? "))]
+            damage = int(item["damage"])
+            enemy_pokemon["current_health"] -= damage
+            print("Vida restante de {} es {}".format(enemy_pokemon["name"],enemy_pokemon["current_health"]))
+            chosen = True
+            
+        except(ValueError, IndexError):
+            print("Opción no valida")
+    input("Enter")    
+    os.system("cls") 
     
-
-
-
-
-
-
-def player_attack(player_pokemon):
-    attacks_list = player_pokemon["attacks"] 
-
-
 def enemy_attack(enemy_pokemon,player_pokemon):
     #RANDOM EMENY ATTACK
     random_attack = random.choice(enemy_pokemon["attacks"])
     damage = int(random_attack["damage"])
     print("Daño de ataque {}".format(damage),get_attack_info(random_attack))
     player_pokemon["current_health"] -= damage
-    print("Vida restante del pokemon seleccionado {}".format(player_pokemon["current_health"]))
+    print("Vida restante de {} es {}".format(player_pokemon["name"],player_pokemon["current_health"]))
     input("ENTER")
-
-    
+    os.system("cls")
 def assign_experience(attack_history):
     for pokemon in attack_history:
         points = random.randint(1, 5)
@@ -91,7 +96,6 @@ def assign_experience(attack_history):
 
 def choose_action():
     pass
-
 
 def cure_pokemon(player_profile,player_pokemon):
     if player_profile["heat_potion"] > 0:
@@ -131,7 +135,7 @@ def fight(player_profile,enemy_pokemon):
 
         enemy_attack(enemy_pokemon,player_pokemon)
     
-        if player_profile["current_health"] == 0 and any_player_pokemon_lives(player_profile):
+        if player_pokemon["current_health"] == 0 and any_player_pokemon_lives(player_profile):
             player_pokemon = choose_pokemon(player_profile)
     
     if enemy_pokemon["current_health"] == 0:
