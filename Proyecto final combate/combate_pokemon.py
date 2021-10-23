@@ -25,14 +25,12 @@ def get_player_profile(pokemon_list):
         "pokeballs": 0,
         "heat_potion": 0,
     }                                                                               
-
-                                                                                    
+                                                                                  
 def any_player_pokemon_lives(player_profile):
     return (sum( [pokemon["current_health"] for pokemon in player_profile["pokemon_inventory"]] ) > 0) # Si la suma de todas las vidas de los pokemon es mayor a 0 devolvera un True si no un False
 
-
-
 def choose_pokemon(player_profile):
+    os.system("cls")
     chosen = None
     while not chosen:
         print("Elije tu pokemon con el que lucharas: ")
@@ -41,9 +39,7 @@ def choose_pokemon(player_profile):
         try:
             return player_profile["pokemon_inventory"][int(input("¿Cual elijes? "))]
         except (ValueError, IndexError):
-            print("Obción invalida")
-        
-    
+            print("Obción invalida")   
 
 def get_pokemon_info(pokemon):
     return "{} | Level {} | HEALTH POINS {}/{}".format(pokemon["name"].upper(), 
@@ -58,22 +54,23 @@ def  get_attack_info(attack):
                                                             )
 
 def player_attack(player_pokemon,enemy_pokemon):
-    chosen = None
-    while not chosen:    
-        print("Selecciona tu ataque")
-        for index in range(len(player_pokemon["attacks"])):
-            print("{} - {})".format(index,get_attack_info(player_pokemon["attacks"][index])))
-        try:
-            item =  player_pokemon["attacks"][int(input("¿Cual elijes? "))]
-            damage = int(item["damage"])
-            enemy_pokemon["current_health"] -= damage
-            print("Vida restante de {} es {}".format(enemy_pokemon["name"],enemy_pokemon["current_health"]))
-            chosen = True
-            
-        except(ValueError, IndexError):
-            print("Opción no valida")
-    input("Enter")    
-    os.system("cls") 
+    if enemy_pokemon["current_heatl"]:
+        chosen = None
+        while not chosen:    
+            print("Selecciona tu ataque")
+            for index in range(len(player_pokemon["attacks"])):
+                print("{} - {})".format(index,get_attack_info(player_pokemon["attacks"][index])))
+            try:
+                item =  player_pokemon["attacks"][int(input("¿Cual elijes? "))]
+                damage = int(item["damage"])
+                enemy_pokemon["current_health"] -= damage
+                print("Vida restante de {} es {}".format(enemy_pokemon["name"],enemy_pokemon["current_health"]))
+                chosen = True
+                
+            except(ValueError, IndexError):
+                print("Opción no valida")
+        input("Enter")    
+        os.system("cls") 
     
 def enemy_attack(enemy_pokemon,player_pokemon):
     #RANDOM EMENY ATTACK
@@ -84,6 +81,7 @@ def enemy_attack(enemy_pokemon,player_pokemon):
     print("Vida restante de {} es {}".format(player_pokemon["name"],player_pokemon["current_health"]))
     input("ENTER")
     os.system("cls")
+    
 def assign_experience(attack_history):
     for pokemon in attack_history:
         points = random.randint(1, 5)
@@ -94,9 +92,6 @@ def assign_experience(attack_history):
         pokemon["current_health"] = pokemon["base_health"]
         print("Tu pokemon ha subido de nivel {}".format(get_pokemon_info(pokemon)))
 
-def choose_action():
-    pass
-
 def cure_pokemon(player_profile,player_pokemon):
     if player_profile["heat_potion"] > 0:
        player_pokemon["current_health"] = player_pokemon["base_health"]  
@@ -104,8 +99,8 @@ def cure_pokemon(player_profile,player_pokemon):
     else:
          print("No tienes mas posiones")
 
-
 def fight(player_profile,enemy_pokemon):
+    os.system("cls")
     print("---NUEVO COMBATE---")
 
     attack_history = []
@@ -117,43 +112,44 @@ def fight(player_profile,enemy_pokemon):
 
     while any_player_pokemon_lives(player_profile) and enemy_pokemon["current_health"] > 0:
         action = None
-        while action not in ["A", "P", "V", "C"]:
-            action = input("¿Que deseas hacer? [A]tacar , [P]okeball, Posion de [V]ida, [C]ambiar")
-
+        #make a while control with "¿Que deseas hacer? [A]tacar , [P]okeball, Posion de [V]ida, [C]ambiar: " and create por each case a if or elif control with each letter
+        
+        while action not in ["A", "P", "V", "C"]: 
+            action = input("¿Que deseas hacer? [A]tacar , [P]okeball, Posion de [V]ida, [C]ambiar: ").upper()
+            os.system("cls")
         if action == "A":
             player_attack(player_pokemon,enemy_pokemon)
+            enemy_attack(enemy_pokemon,player_pokemon)
             attack_history.append(player_pokemon)
-            
-        elif action =="V":
-            cure_pokemon(player_profile ,player_pokemon)
-        # Si el usuario tiene pokeballs en el invetario, se tira una, hay una probabilidad de capturarlo
-        # si la salud del pokemon es mas baja, y cuando se captura pasa a estar en el inventario con la misma salud
+            attack_history.append(enemy_pokemon)
+            player_profile["combats"] += 1
         elif action == "P":
-            pass
+            player_profile["pokeballs"] -= 1
+            enemy_attack(enemy_pokemon,player_pokemon)
+            attack_history.append(player_pokemon)
+            attack_history.append(enemy_pokemon)
+            player_profile["combats"] += 1
+        elif action == "V":
+            cure_pokemon(player_profile,player_pokemon)
         elif action == "C":
-            player_pokemon = choose_pokemon(player_profile)
+            if player_pokemon["current_health"] == 0 and any_player_pokemon_lives(player_profile):
+                player_pokemon = choose_pokemon(player_profile)
+                print("Contrincantes: \n{} \n{}VS \n{}".format(get_pokemon_info(player_pokemon),
+                                                 " "* 17,
+                                                 get_pokemon_info(enemy_pokemon)))
+        else:
+            print("Opción no valida")
 
-        enemy_attack(enemy_pokemon,player_pokemon)
-    
-        if player_pokemon["current_health"] == 0 and any_player_pokemon_lives(player_profile):
-            player_pokemon = choose_pokemon(player_profile)
     
     if enemy_pokemon["current_health"] == 0:
-        print("¡Has ganado!")
         assign_experience(attack_history)
+        print("Has ganado")
+    else:    
+        print("Has perdido")
 
     print("---FIN DEL COMBATE---")
     input("Presiona ENTER para continuar...")
-
-
-
-
-
-
-
-
-
-
+    os.system("cls")
 
 def main():
     pokemon_list = get_all_pokemons()

@@ -1,5 +1,6 @@
-from requests_html import HTMLSession
 import pickle
+from pprint import pprint
+from requests_html import HTMLSession
 
 pokemon_base = {
     "url_photo":"",
@@ -94,9 +95,17 @@ def get_all_pokemons():
     return all_pokemons
 
 
+def get_pokemon_by_name(name):
+    all_pokemons = get_all_pokemons()
+    for pokemon in all_pokemons:
+        if pokemon["name"] == name:
+            return pokemon
+    return None
+ 
 
 
 if __name__ == "__main__":
-    print("TEST")
-    b = get_all_pokemons()
-    print(b)
+    #get_pokemon(1)
+    get_all_pokemons()
+    
+    
