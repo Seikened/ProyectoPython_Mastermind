@@ -1,4 +1,4 @@
-action = input("¿Que deseas hacer? [A]tacar , [P]okeball, Posion de [V]ida, [C]ambiar: ")
+"""action = input("¿Que deseas hacer? [A]tacar , [P]okeball, Posion de [V]ida, [C]ambiar: ")
 
         if action == "A":
             player_attack(player_pokemon,enemy_pokemon)
@@ -26,4 +26,4 @@ action = input("¿Que deseas hacer? [A]tacar , [P]okeball, Posion de [V]ida, [C]
                                                  get_pokemon_info(enemy_pokemon)))
 
         else:
-            print("Opción no valida")
+            print("Opción no valida")"""
