@@ -163,6 +163,7 @@ def main():
     print("Has perdido en el combate numero {}".format(player_profile["combats"]))
 
 if __name__ == "__main__":
+
     main()
 
 
